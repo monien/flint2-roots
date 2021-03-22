@@ -96,6 +96,8 @@ void timeit_stop(timeit_t t)
     t->cpu += clock() * 1000 / CLOCKS_PER_SEC;
 }
 
+timeit_t flint_timer;
+
 /******************************************************************************
 
     Timer based on the x86 cycle counter
@@ -188,9 +190,9 @@ typedef void (*profile_target_t)(void* arg, ulong count);
 
 FLINT_DLL void prof_repeat(double* min, double* max, profile_target_t target, void* arg);
 
-#define DURATION_THRESHOLD 5000.0
+#define DURATION_THRESHOLD 500.0
 
-#define DURATION_TARGET 10000.0
+#define DURATION_TARGET 1000.0
 
 #endif
 

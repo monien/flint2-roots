@@ -36,7 +36,6 @@ void sample(void * arg, ulong count)
     nmod_mat_t A, B, C;
     ulong i;
     flint_rand_t state;
-
     flint_randinit(state);
 
     nmod_mat_init(A, params->dim_m, params->dim_k, params->modulus);
@@ -46,7 +45,8 @@ void sample(void * arg, ulong count)
     nmod_mat_randfull(B, state);
     nmod_mat_randfull(C, state);
 
-    prof_start();
+    
+    timeit_start(flint_timer);
 
     if (algorithm == 0)
         for (i = 0; i < count; i++)
@@ -64,7 +64,7 @@ void sample(void * arg, ulong count)
         for (i = 0; i < count; i++)
             nmod_mat_mul_strassen(C, A, B);
 
-    prof_stop();
+    timeit_stop(flint_timer);
 
     nmod_mat_clear(A);
     nmod_mat_clear(B);
@@ -81,7 +81,7 @@ int main(void)
 
     flint_printf("nmod_mat_mul:\n");
 
-    for (dim = 2; dim <= 100; dim += dim/4 + 1)
+/*  for (dim = 2; dim <= 100; dim += dim/4 + 1)
     {
         double min_classical, min_strassen;
 
@@ -99,13 +99,14 @@ int main(void)
         flint_printf("dim = %wd, classical %.2f us strassen %.2f us\n", 
                                              dim, min_classical, min_strassen);
     }
+*/
 
     /* output floating point ratios time(mul_blas)/time(mul_blas) */
     for (dim = 200; dim <= 1200; dim += 200)
     {
         flint_printf("dimension %wd\n", dim);
 
-        for (flint_num = 2; flint_num <= 8; flint_num += 1)
+        for (flint_num = 1; flint_num <= 8; flint_num += 1)
         {
             flint_set_num_threads(flint_num);
 
@@ -127,7 +128,7 @@ int main(void)
                     params.algorithm = 2;
                     prof_repeat(&min_old, &max, sample, &params);
 
-                    params.algorithm = 0;
+                    params.algorithm = 3;
                     prof_repeat(&min_new, &max, sample, &params);
 
                     min_ratio = FLINT_MIN(min_ratio, min_old/min_new);

@@ -38,10 +38,8 @@ prof_repeat(double *min, double *max, profile_target_t target, void *arg)
 
     /* First try one loop */
     ulong num_trials = 4;
-    double last_time;
-    init_clock(0);
+    double last_time = 0;
     target(arg, num_trials);
-    last_time = get_clock(0);
 
     /* Loop until we have enough good times */
     while (1)
@@ -82,16 +80,21 @@ prof_repeat(double *min, double *max, profile_target_t target, void *arg)
                 adjust_ratio = 1.25;
             if (adjust_ratio < 0.75)
                 adjust_ratio = 0.75;
-            num_trials = (ulong) ceil(adjust_ratio * num_trials);
+            if (adjust_ratio >= 16.0)
+		adjust_ratio = 2.0;
+	    if (adjust_ratio >= 256.0)
+		adjust_ratio = 4.0;
+	    if (adjust_ratio >= 4096.0)
+		adjust_ratio = 8.0;
+	    num_trials = (ulong) ceil(adjust_ratio * num_trials);
             /* Just to be safe */
             if (num_trials == 0)
                 num_trials = 1;
         }
-
-        /* Run another trial */
-        init_clock(0);
+        
+	/* Run another trial */
         target(arg, num_trials);
-        last_time = get_clock(0);
+	last_time = flint_timer->wall;
     }
 
     /* Store results */

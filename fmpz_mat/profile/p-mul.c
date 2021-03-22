@@ -35,7 +35,6 @@ void sample(void * arg, ulong count)
     slong bits = params->bits;
     int algorithm = params->algorithm;
 
-    flint_rand_t rnd;
     fmpz_mat_t A, B, C;
     FLINT_TEST_INIT(state);
     
@@ -47,7 +46,7 @@ void sample(void * arg, ulong count)
     fmpz_mat_randbits(A, state, bits);
     fmpz_mat_randbits(B, state, bits);
 
-    prof_start();
+    timeit_start(flint_timer);
 
     if (algorithm == 0)
         for (i = 0; i < count; i++)
@@ -65,7 +64,7 @@ void sample(void * arg, ulong count)
 	for (i = 0; i < count; i++)
 	    fmpz_mat_mul_strassen(C, A, B);
 
-    prof_stop();
+    timeit_stop(flint_timer);
 
     fmpz_mat_clear(A);
     fmpz_mat_clear(B);
@@ -107,7 +106,7 @@ int main(void)
             params.algorithm = 4;
             prof_repeat(&min_strassen, &max, sample, &params);
 
-            flint_printf("dim = %wd default/classical/inline/multi_mod/strassen %.2f %.2f %.2f %.2f %.2f (us)\n", 
+            flint_printf("dim = %wd default/classical/inline/multi_mod/strassen %.5f %.5f %.5f %.5f %.5f (ms)\n", 
                 dim, min_default, min_classical, min_inline, min_multi_mod, min_strassen);
 
             if (min_multi_mod < 0.6*min_default)
