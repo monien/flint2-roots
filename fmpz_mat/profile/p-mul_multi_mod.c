@@ -56,7 +56,7 @@ int main(void)
 
             timeit_start(timer);
             for (i = reps; i > 0; i--)
-                fmpz_mat_mul_multi_mod(E, A, B);
+                fmpz_mat_mul(E, A, B);
             timeit_stop(timer);
 
             total += timer->wall;
