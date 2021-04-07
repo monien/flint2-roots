@@ -15,6 +15,7 @@
 #include "flint.h"
 #include "templates.h"
 #include "ulong_extras.h"
+#include "fmpz_mod_mat.h"
 
 #ifdef __cplusplus
  extern "C" {
@@ -51,6 +52,9 @@ FLINT_DLL int TEMPLATE(T, mat_equal)(const TEMPLATE(T, mat_t) mat1,
                        const TEMPLATE(T, ctx_t) ctx);
 
 FLINT_DLL int TEMPLATE(T, mat_is_zero)(const TEMPLATE(T, mat_t) mat,
+                         const TEMPLATE(T, ctx_t) ctx);
+
+FLINT_DLL int TEMPLATE(T, mat_is_one)(const TEMPLATE(T, mat_t) mat,
                          const TEMPLATE(T, ctx_t) ctx);
 
 FQ_MAT_TEMPLATES_INLINE int
@@ -179,6 +183,16 @@ TEMPLATE(T, mat_invert_cols)(TEMPLATE(T, mat_t) mat, slong * perm, const TEMPLAT
 /* Assignment  ***************************************************************/
 
 FLINT_DLL void TEMPLATE(T, mat_zero)(TEMPLATE(T, mat_t) A, const TEMPLATE(T, ctx_t) ctx);
+
+FLINT_DLL void TEMPLATE(T, mat_one)(TEMPLATE(T, mat_t) A, const TEMPLATE(T, ctx_t) ctx);
+
+/* Conversions ***************************************************************/
+
+FLINT_DLL void TEMPLATE(T, mat_set_nmod_mat) (TEMPLATE(T, mat_t) mat1,
+                          const nmod_mat_t mat2, const TEMPLATE(T, ctx_t) ctx);
+
+FLINT_DLL void TEMPLATE(T, mat_set_fmpz_mod_mat) (TEMPLATE(T, mat_t) mat1,
+                      const fmpz_mod_mat_t mat2, const TEMPLATE(T, ctx_t) ctx);
 
 /* Windows and concatenation */
 
