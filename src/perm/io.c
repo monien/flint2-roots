@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include <flint/flint.h>
+
+#include "flint.h"
+#include "perm.h"
 
 static void
 cycle_fprint(FILE *file, slong *x, slong n)
