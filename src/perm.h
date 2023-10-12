@@ -18,8 +18,12 @@
 #define PERM_INLINE static __inline__
 #endif
 
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "flint.h"
+#include "fmpz.h"
+#include "fmpz_mat.h"
 
 #ifdef __cplusplus
  extern "C" {
@@ -133,6 +137,44 @@ _perm_compose(slong *res, const slong *vec1, const slong *vec2, slong n)
     }
 }
 
+PERM_INLINE void
+_perm_power (slong *x_p, slong *x, slong p, slong n)
+{
+
+  ulong tmp = labs (p);
+
+  slong *w = _perm_init (n);
+
+  _perm_set (x_p, w, n);
+  _perm_set (w, x, n);
+
+  for (slong j = 0; j < 8 * sizeof (ulong); j++)
+    {
+      if (tmp & 0x1)
+	{
+	  _perm_compose (x_p, x_p, w, n);
+	}
+      _perm_compose (w, w, w, n);
+      tmp >>= 1;
+    }
+
+  if (p < 0)
+    _perm_inv (x_p, x_p, n);
+
+  _perm_clear (w);
+}
+
+/* Matrix representation ******************************************************/
+
+PERM_INLINE void _perm_mat(fmpz_mat_t a, slong *x, slong n)
+{
+    fmpz_mat_zero(a);
+    for (slong j = 0; j < n; j++)
+    {
+        fmpz_one(fmpz_mat_entry(a, j, x[j]));
+    }
+}
+
 /* Randomisation *************************************************************/
 
 int _perm_randtest(slong * vec, slong n, flint_rand_t state);
@@ -172,6 +214,12 @@ PERM_INLINE int _perm_print(const slong * vec, slong n)
 
     return 1;
 }
+
+void _perm_fprint_pretty(FILE *file, slong *x, slong n);
+
+void _perm_print_pretty(slong *x, slong n);
+
+char * _perm_get_str_pretty(slong *x, slong n);
 
 #ifdef __cplusplus
 }

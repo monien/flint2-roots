@@ -47,6 +47,11 @@ Composition
 
     Allows aliasing of ``res``, ``vec1`` and ``vec2``.
 
+.. function:: void _perm_power (slong *res, slong *vec, slong p, slong n)
+
+    Sets ``res`` to the power ``k`` of  ``vec``.
+    Allows aliasing of ``vec`` and  ``res``.
+	      
 
 Parity
 --------------------------------------------------------------------------------
@@ -78,3 +83,15 @@ Input and output
 .. function:: int _perm_print(const slong * vec, slong n)
 
     Prints the permutation vector of length `n` to ``stdout``.
+
+.. function:: void _perm_print_pretty(slong *vec, slong n)
+
+    Prints the permutation vector in cycle representation to ``stdout``.
+
+.. function:: void _perm_print_pretty(FILE* file, slong *vec, slong n)
+
+    Prints the permutation vector in cycle representation to stream ``file``.
+
+.. function:: char* _perm_get_str_pretty(slong *vec, slong n)
+
+    Returns a string with the cycle representation of permutation vector ``vec``.
