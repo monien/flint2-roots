@@ -798,6 +798,50 @@ A few examples::
     cpu/wall(s): 0.019 0.018
     I9 = [0.3785300 +/- 3.17e-8]
 
+integrals_double_exp.c
+--------------------------------------------------------------------------------
+
+This program demonstrates double exponential integration for 
+(https://ems.press/content/serial-article-files/41766)::
+
+    > build/examples/integrals_double_exp
+    example: integral_0^oo 1/(1+x^3) dx = 2*pi/(3*sqrt(3))
+
+	    result = 1.209199576156145 +/- 4.6453e-305, |result - exact| = 0e-304
+
+    example: integral_0^oo exp(-x)*log(x) dx = -gamma
+
+	    result = -0.5772156649015329 +/- 3.2105e-305, |result - exact| = 0e-304
+
+    example: integral_0^oo log(x)^2/(1+x^2) dx = pi^3/8
+
+	    result = 3.875784585037478 +/- 5.1680e-305, |result - exact| = 0e-304
+
+    example: integral_-1^+1 1/(1+x^2) dx = pi/2
+
+	    result = 1.570796326794897 +/- 4.6039e-305, |result - exact| = 0e-304
+
+    example: integral_-oo^+oo 1/(1+x^2) dx = pi
+
+	    result = 3.141592653589793 +/- 5.0975e-305, |result - exact| = 0e-304
+
+    example: integral_0^oo x^2/(exp(x) - 1) dx = 2*zeta(3)
+
+	    result = 2.404113806319189 +/- 7.4379e-305, |result - exact| = 0e-303
+
+    example: integral_0^oo exp(-x)/sqrt(x) dx = sqrt(pi)
+
+	    result = 1.772453850905516 +/- 7.2099e-305, |result - exact| = 0e-303
+
+    example: integral_0^oo exp(-x^2) dx = sqrt(pi)/2
+
+	    result = 0.8862269254527580 +/- 3.1215e-305, |result - exact| = 0e-304
+
+    example: integral_-1^+1 sqrt(1-x^2) dx = pi/2
+
+	    result = 1.570796326794897 +/- 2.1719e-305, |result - exact| = 0e-304
+
+
 fpwrap.c
 -------------------------------------------------------------------------------
 

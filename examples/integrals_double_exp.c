@@ -419,7 +419,7 @@ main(int argc, char *argv[])
     slong num_threads = 1;
     slong prec = 1024;
 
-    int index, c, verbose = 0;
+    int c, verbose = 0;
 
     opterr = 0;
 
